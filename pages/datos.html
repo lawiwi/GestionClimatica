@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Climática - Datos y ETL</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="informacion.html">Información</a></li>
+                <li><a href="datos.html" class="active">Datos</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <section class="intro">
+            <h1>Proceso ETL y Análisis de Datos</h1>
+            <div class="info-box">
+                <h3>Visión General del Proceso ETL</h3>
+                <p>
+                    El proceso ETL (Extracción, Transformación y Carga) es el núcleo de nuestro sistema, 
+                    permitiendo la integración eficiente de datos desde múltiples fuentes hacia nuestro 
+                    Data Warehouse, garantizando la calidad y consistencia de la información.
+                </p>
+            </div>
+        </section>
+
+        <section class="etl-process">
+            <h2>Etapas del Proceso ETL</h2>
+            <div class="diagram-container">
+                <img src="                                    " alt="Diagrama del Proceso ETL">
+                <p class="diagram-caption">Flujo del proceso ETL implementado</p>
+            </div>
+
+            <div class="proceso-detallado">
+                <h3>1. Extracción</h3>
+                <div class="info-box">
+                    <ul class="feature-list">
+                        <li>Recopilación de datos de estaciones meteorológicas</li>
+                        <li>Lectura de archivos CSV con registros climáticos</li>
+                        <li>Validación inicial de formatos y estructura</li>
+                        <li>Control de versiones de datos</li>
+                    </ul>
+                </div>
+                
+                <!-- Vistas adicionales extraídas del documento -->
+                <div class="codigo">
+                    <h4>Vista 1 — Estaciones con Municipio y Departamento</h4>
+                    <p>Relación entre estaciones y su localización administrativa (Municipio / Departamento).</p>
+                    <pre>
+-- GESTIONCLIMATICA_MER
+SELECT
+    e.IdEstacion,
+    e.Estacion,
+    e.CodigoEstacion,
+    e.Estado,
+    m.Municipio,
+    d.Departamento
+FROM GestionIoT.Estaciones AS e
+INNER JOIN GestionIoT.AreasOperativas AS a ON e.IdAreaOperativa = a.IdAreaOperativa
+INNER JOIN GestionIoT.Municipios AS m ON a.IdMunicipio = m.IdMunicipio
+INNER JOIN GestionIoT.Departamentos AS d ON m.IdDepartamento = d.IdDepartamento;
+GO
+
+-- GESTIONCLIMATICA_DW
+SELECT
+    f.IdEstacion,
+    de.NombreEstacion AS Estacion,
+    de.CodigoEstacion,
+    de.Estado,
+    dm.Municipio AS Municipio,
+    dd.Departamento AS Departamento
+FROM dbo.FactObservaciones AS f
+INNER JOIN dbo.DimEstacion AS de ON f.IdEstacion = de.IdEstacion
+INNER JOIN dbo.DimAreaOperativa AS da ON f.IdAreaOperativa = da.IdAreaOperativa
+INNER JOIN dbo.DimMunicipio AS dm ON da.IdMunicipio = dm.IdMunicipio
+INNER JOIN dbo.DimDepartamento AS dd ON dm.IdDepartamento = dd.IdDepartamento;
+                    </pre>
+
+                    <h5>Ejemplo de resultado</h5>
+                    <table class="ejemplo-table">
+                        <thead>
+                            <tr><th>IdEstacion</th><th>Estacion</th><th>CodigoEstacion</th><th>Estado</th><th>Municipio</th><th>Departamento</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>101</td><td>Estación Norte</td><td>EST-N-001</td><td>Activa</td><td>San José</td><td>Caldas</td></tr>
+                            <tr><td>102</td><td>Estación Central</td><td>EST-C-002</td><td>Activa</td><td>Valle</td><td>Quindío</td></tr>
+                            <tr><td>103</td><td>Estación Sur</td><td>EST-S-003</td><td>Inactiva</td><td>Río</td><td>Risaralda</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="codigo">
+                    <h4>Vista 2 — Promedio de Temperatura por Estación</h4>
+                    <p>Cálculo del promedio de lecturas de temperatura por estación.</p>
+                    <pre>
+-- GESTIONCLIMATICA_MER
+WITH SensorPorEstacion AS (
+    SELECT IdSensor, IdEstacion
+    FROM GestionIoT.EstacionesXSensores
+)
+
+SELECT
+    e.IdEstacion,
+    e.Estacion,
+    AVG(CAST(o.ValorObservado AS FLOAT)) AS PromedioTemperatura
+FROM GestionIoT.Observaciones AS o
+INNER JOIN SensorPorEstacion sp ON o.IdSensor = sp.IdSensor
+INNER JOIN GestionIoT.Estaciones AS e ON sp.IdEstacion = e.IdEstacion
+INNER JOIN GestionIoT.Sensores AS s ON o.IdSensor = s.IdSensor
+WHERE (s.Sensor LIKE '%Temperatura%' OR s.Sensor LIKE '%Temp%' OR s.Sensor LIKE '%_71_%')
+  AND (s.Unidad IS NULL OR s.Unidad = '°C')
+GROUP BY e.IdEstacion, e.Estacion
+ORDER BY PromedioTemperatura DESC;
+
+-- GESTIONCLIMATICA_DW
+WITH ObsCTE AS (
+    SELECT
+        f.IdEstacion,
+        CAST(dt.FechaCompleta AS DATE) AS Fecha,
+        TRY_CAST(f.ValorObservado AS FLOAT) AS Valor,
+        ds.NombreSensor,
+        ds.Unidad
+    FROM dbo.FactObservaciones AS f
+    INNER JOIN dbo.DimEstacion AS de ON f.IdEstacion = de.IdEstacion
+    INNER JOIN dbo.DimSensor AS ds ON f.IdSensor = ds.IdSensor
+    INNER JOIN dbo.DimTiempo AS dt ON f.IdTiempo = dt.IdTiempo
+    WHERE TRY_CAST(f.ValorObservado AS FLOAT) IS NOT NULL
+      AND (ds.NombreSensor LIKE '%Temperatura%' OR ds.NombreSensor LIKE '%Temp%' OR ds.NombreSensor LIKE '%_71_%')
+      AND (ds.Unidad IS NULL OR ds.Unidad = '°C')
+)
+
+SELECT
+    de.IdEstacion,
+    de.NombreEstacion AS Estacion,
+    AVG(DiarioPromedio) AS PromedioTemperatura
+FROM (
+    SELECT IdEstacion, Fecha, AVG(Valor) AS DiarioPromedio
+    FROM ObsCTE
+    GROUP BY IdEstacion, Fecha
+) AS SubPromedios
+INNER JOIN dbo.DimEstacion AS de ON SubPromedios.IdEstacion = de.IdEstacion
+GROUP BY de.IdEstacion, de.NombreEstacion
+ORDER BY PromedioTemperatura DESC;
+                    </pre>
+
+                    <h5>Ejemplo de resultado</h5>
+                    <table class="ejemplo-table">
+                        <thead>
+                            <tr><th>IdEstacion</th><th>Estacion</th><th>PromedioTemperatura (°C)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>101</td><td>Estación Norte</td><td>18.6</td></tr>
+                            <tr><td>102</td><td>Estación Central</td><td>20.1</td></tr>
+                            <tr><td>103</td><td>Estación Sur</td><td>22.8</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="codigo">
+                    <h4>Vista 3 — Promedio de observaciones por Área Operativa</h4>
+                    <p>Promedio y conteo de lecturas agrupadas por área operativa.</p>
+                    <pre>
+-- GESTIONCLIMATICA_MER
+SELECT
+    a.AreaOperativa AS AreaOperativa,
+    AVG(o.ValorObservado) AS PromedioObservado,
+    COUNT(o.IdObservacion) AS TotalLecturas
+FROM GestionIoT.Observaciones AS o
+INNER JOIN GestionIoT.Sensores AS s ON o.IdSensor = s.IdSensor
+INNER JOIN GestionIoT.EstacionesXSensores AS exs ON s.IdSensor = exs.IdSensor
+INNER JOIN GestionIoT.Estaciones AS e ON exs.IdEstacion = e.IdEstacion
+INNER JOIN GestionIoT.AreasOperativas AS a ON e.IdAreaOperativa = a.IdAreaOperativa
+GROUP BY a.AreaOperativa
+ORDER BY PromedioObservado DESC;
+
+-- GESTIONCLIMATICA_DW
+SELECT
+    da.AreaOperativa AS AreaOperativa,
+    AVG(f.ValorObservado) AS PromedioObservado,
+    COUNT(f.IdSensor) AS TotalLecturas
+FROM dbo.FactObservaciones AS f
+INNER JOIN dbo.DimAreaOperativa AS da ON f.IdAreaOperativa = da.IdAreaOperativa
+GROUP BY da.AreaOperativa
+ORDER BY PromedioObservado DESC;
+                    </pre>
+
+                    <h5>Ejemplo de resultado</h5>
+                    <table class="ejemplo-table">
+                        <thead>
+                            <tr><th>AreaOperativa</th><th>PromedioObservado</th><th>TotalLecturas</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Norte</td><td>19.2</td><td>15420</td></tr>
+                            <tr><td>Centro</td><td>20.5</td><td>23100</td></tr>
+                            <tr><td>Sur</td><td>21.0</td><td>12050</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="codigo">
+                    <h4>Vista 4 — Última Observación por Estación</h4>
+                    <p>Consulta que obtiene la última observación registrada (por fecha) para cada estación.</p>
+                    <pre>
+-- GESTIONCLIMATICA_MER
+WITH UltimasPorEstacion AS (
+    SELECT
+        e.IdEstacion,
+        e.Estacion,
+        s.Sensor,
+        o.FechaObservacion,
+        o.ValorObservado,
+        ROW_NUMBER() OVER (PARTITION BY e.IdEstacion ORDER BY TRY_CAST(o.FechaObservacion AS DATETIME) DESC) AS rn
+    FROM GestionIoT.Observaciones AS o
+    INNER JOIN GestionIoT.EstacionesXSensores AS esx ON o.IdSensor = esx.IdSensor
+    INNER JOIN GestionIoT.Estaciones AS e ON esx.IdEstacion = e.IdEstacion
+    INNER JOIN GestionIoT.Sensores AS s ON o.IdSensor = s.IdSensor
+    WHERE TRY_CAST(o.FechaObservacion AS DATETIME) IS NOT NULL
+)
+SELECT IdEstacion, Estacion, Sensor, FechaObservacion, ValorObservado
+FROM UltimasPorEstacion
+WHERE rn = 1
+ORDER BY FechaObservacion DESC;
+
+-- GESTIONCLIMATICA_DW
+WITH UltimasPorEstacion AS (
+    SELECT
+        de.IdEstacion,
+        de.NombreEstacion AS Estacion,
+        ds.NombreSensor AS Sensor,
+        dt.FechaCompleta AS FechaObservacion,
+        f.ValorObservado,
+        ROW_NUMBER() OVER (PARTITION BY de.IdEstacion ORDER BY TRY_CAST(dt.FechaCompleta AS DATETIME) DESC) AS rn
+    FROM dbo.FactObservaciones AS f
+    INNER JOIN dbo.DimEstacion AS de ON f.IdEstacion = de.IdEstacion
+    INNER JOIN dbo.DimSensor AS ds ON f.IdSensor = ds.IdSensor
+    INNER JOIN dbo.DimTiempo AS dt ON f.IdTiempo = dt.IdTiempo
+    WHERE TRY_CAST(dt.FechaCompleta AS DATETIME) IS NOT NULL
+)
+SELECT IdEstacion, Estacion, Sensor, FechaObservacion, ValorObservado
+FROM UltimasPorEstacion
+WHERE rn = 1
+ORDER BY FechaObservacion DESC;
+                    </pre>
+
+                    <h5>Ejemplo de resultado</h5>
+                    <table class="ejemplo-table">
+                        <thead>
+                            <tr><th>IdEstacion</th><th>Estacion</th><th>Sensor</th><th>FechaObservacion</th><th>ValorObservado</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>102</td><td>Estación Central</td><td>Sensor Temp 1</td><td>2025-10-27 14:05:00</td><td>21.7</td></tr>
+                            <tr><td>101</td><td>Estación Norte</td><td>Sensor Temp 3</td><td>2025-10-27 13:58:00</td><td>18.9</td></tr>
+                            <tr><td>103</td><td>Estación Sur</td><td>Sensor Temp 2</td><td>2025-10-27 12:10:00</td><td>22.4</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>2. Transformación</h3>
+                <div class="info-box">
+                    <ul class="feature-list">
+                        <li>Limpieza y normalización de datos</li>
+                        <li>Eliminación de duplicados y valores atípicos</li>
+                        <li>Generación de claves sustitutas</li>
+                        <li>Mapeo a dimensiones del DW</li>
+                    </ul>
+                </div>
+
+                <h3>3. Carga</h3>
+                <div class="info-box">
+                    <ul class="feature-list">
+                        <li>Implementación con SQL Server Integration Services (SSIS)</li>
+                        <li>Proceso de carga incremental</li>
+                        <li>Validación post-carga</li>
+                        <li>Registro de auditoría</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="analysis">
+            <h2>Análisis y Consultas</h2>
+            <div class="info-box">
+                <h3>Ejemplos de Consultas Analíticas</h3>
+                <div class="codigo">
+                    <h4>Temperatura Promedio por Estación</h4>
+                    <pre>
+SELECT 
+    e.NombreEstacion,
+    t.Año,
+    t.Mes,
+    AVG(f.ValorObservado) AS TemperaturaPromedio
+FROM FactObservaciones f
+INNER JOIN DimTiempo t ON f.IdTiempo = t.IdTiempo
+INNER JOIN DimEstacion e ON f.IdEstacion = e.IdEstacion
+GROUP BY e.NombreEstacion, t.Año, t.Mes
+ORDER BY t.Año, t.Mes;
+                    </pre>
+                </div>
+
+                <div class="codigo">
+                    <h4>Análisis de Tendencias</h4>
+                    <pre>
+SELECT 
+    r.NombreRegion,
+    t.Año,
+    COUNT(*) AS TotalMediciones,
+    AVG(f.Temperatura) AS TemperaturaPromedio,
+    MAX(f.Temperatura) AS TemperaturaMaxima,
+    MIN(f.Temperatura) AS TemperaturaMinima
+FROM FactMediciones f
+JOIN DimRegion r ON f.IdRegion = r.IdRegion
+JOIN DimTiempo t ON f.IdTiempo = t.IdTiempo
+GROUP BY r.NombreRegion, t.Año
+ORDER BY r.NombreRegion, t.Año;
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="visualization">
+            <h2>Visualización de Datos</h2>
+            <div class="info-box">
+                <h3>Herramientas de Visualización</h3>
+                <ul class="feature-list">
+                    <li><strong>Power BI:</strong> Dashboards interactivos de temperatura</li>
+                    <li><strong>Tableau:</strong> Mapas de calor y tendencias climáticas</li>
+                    <li><strong>SQL Server Reporting Services:</strong> Informes detallados</li>
+                </ul>
+            </div>
+            <div class="diagram-container">
+                <img src="                                                   " alt="Ejemplo de Dashboard">
+                <p class="diagram-caption">Dashboard de análisis climático</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>© 2025 Gestión Climática. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

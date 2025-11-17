@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Climática - Inicio</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Barra de navegación -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="pages/informacion.html">Información</a></li>
+                <li><a href="pages/datos.html">Datos</a></li>
+                <li><a href="pages/contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <section class="intro">
+            <h1>Bienvenidos al Proyecto Gestión Climática</h1>
+            <p>
+                Este proyecto innovador se centra en el desarrollo de una solución integral para el 
+                análisis y gestión de datos climáticos. Utilizamos tecnologías avanzadas de 
+                bases de datos y procesamiento de información para crear una plataforma robusta 
+                que permite el seguimiento y análisis de variables climáticas en diferentes regiones.
+            </p>
+        </section>
+        
+                <!-- Objetivos -->
+        <section class="objetivos">
+            <h2>Objetivos del Proyecto</h2>
+            <div class="objetivos-lista">
+                <div class="objetivo">
+                    <h3>Principal</h3>
+                    <p>
+                        Desarrollar un sistema integral de gestión y análisis de datos climáticos que permita la toma de decisiones basada en información histórica y actual.
+                    </p>
+                </div>
+
+                <div class="objetivo-secundario">
+                    <h3>Específicos</h3>
+                    <ul>
+                        <li>Implementar un modelo relacional eficiente</li>
+                        <li>Diseñar y construir un Data Warehouse</li>
+                        <li>Desarrollar procesos ETL automatizados</li>
+                        <li>Crear una interfaz web para visualización de datos</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- MAPA / TABLERO DE POWER BI -->
+        <section>
+            <h2>Mapa interactivo</h2>
+
+            <iframe 
+                title="ProyectoGestionClimatica" 
+                width="900" 
+                height="500"
+                src="https://app.powerbi.com/view?r=eyJrIjoiNDQyNTM4ZTctM2RiMC00NjEyLWI0YTctYjU1M2M4NWI3NWZmIiwidCI6IjA3ZGE2N2EwLTFmNDMtNGU4Yy05NzdmLTVmODhiNjQ3MGVlNiIsImMiOjR9"
+                frameborder="0"
+                allowFullScreen="true">
+            </iframe>
+        </section>
+
+        <!-- EXPLICACIÓN POWER BI -->
+        <section class="tablero-powerbi">
+            <h2>Tablero Power BI</h2>
+
+            <p>
+                El tablero de Power BI integrado en esta aplicación presenta una vista completa y dinámica del sistema de monitoreo climático. Está diseñado para facilitar la comprensión de grandes volúmenes de datos mediante perspectivas espaciales, temporales y comparativas, permitiendo transformar los registros del sistema en información útil para la toma de decisiones.
+            </p>
+
+            <p>
+                El tablero se divide en tres páginas principales: <strong>Resumen</strong>, <strong>Analítica</strong> y <strong>Tendencias Temporales</strong>, cada una enfocada en un tipo de análisis específico.
+            </p>
+
+            <h3>Página de Resumen</h3>
+            <p>
+                Esta sección ofrece una visión general del estado del sistema de monitoreo climático mediante indicadores clave (KPI) como:
+            </p>
+            <ul>
+                <li>Total de observaciones registradas</li>
+                <li>Usuarios activos</li>
+                <li>Eventos críticos detectados</li>
+                <li>Promedio nacional de temperatura</li>
+                <li>Número total de estaciones</li>
+                <li>Lecturas diarias</li>
+            </ul>
+
+            <p>
+                También se incluyen gráficos como observaciones por departamento, distribución por tipo de sensor y promedio del valor observado por región.
+            </p>
+
+            <h4>Mapa geográfico</h4>
+            <p>En este mapa se visualiza la actividad por estación, incluyendo:</p>
+            <ul>
+                <li>Latitud y longitud</li>
+                <li>Departamento</li>
+                <li>Suma de observaciones (tamaño de la burbuja)</li>
+                <li>Promedio del valor observado (temperatura ambiente)</li>
+                <li>Nombre de la estación</li>
+                <li>Estado (activo/inactivo)</li>
+                <li>Máximo valor registrado</li>
+            </ul>
+            <p>
+                Los filtros permiten analizar regiones críticas o zonas con menor cobertura climática.
+            </p>
+
+            <h3>Página Analítica</h3>
+            <p>
+                Esta sección está diseñada para explorar relaciones y comportamientos específicos entre áreas operativas, estaciones y tipos de sensores.
+            </p>
+
+            <ol>
+                <li>Gráfico de dispersión: compara observaciones totales frente al valor promedio por área operativa.</li>
+                <li>Gráfico de barras: muestra estaciones con mayores registros promedio.</li>
+                <li>Comparación por tipo de sensor: analiza la distribución de observaciones entre sensores 68 y 71.</li>
+            </ol>
+
+            <p>
+                Estos análisis permiten identificar zonas con comportamientos atípicos, microclimas particulares o sensores que requieren verificación.
+            </p>
+
+            <h3>Página Temporal</h3>
+            <p>
+                Esta sección permite analizar cómo evolucionan las observaciones climáticas a lo largo del tiempo. Su gráfica principal muestra:
+            </p>
+            <ul>
+                <li>Cantidad de observaciones por año/mes</li>
+                <li>Tendencias generales en el tiempo</li>
+                <li>Posibles anomalías o fluctuaciones abruptas</li>
+            </ul>
+
+            <p>
+                El uso de medias móviles ayuda a suavizar picos y permite visualizar tendencias reales sin el ruido de variaciones puntuales.
+            </p>
+        </section>
+
+        <!-- Sección Arquitectura -->
+        <section class="arquitectura">
+            <h2>Arquitectura del Sistema</h2>
+            <div class="arquitectura-componentes">
+                <div class="componente">
+                    <h3>Modelo Relacional (MER)</h3>
+                    <ul>
+                        <li>Registros de estaciones meteorológicas</li>
+                        <li>Datos de sensores y mediciones</li>
+                        <li>Información geográfica</li>
+                        <li>Usuarios y permisos</li>
+                    </ul>
+                </div>
+
+                <div class="componente">
+                    <h3>Proceso ETL</h3>
+                    <ul>
+                        <li>Extracción de fuentes múltiples</li>
+                        <li>Transformación y limpieza de datos</li>
+                        <li>Carga al Data Warehouse</li>
+                        <li>Validación de calidad</li>
+                    </ul>
+                </div>
+
+                <div class="componente">
+                    <h3>Data Warehouse</h3>
+                    <ul>
+                        <li>Esquema estrella</li>
+                        <li>Dimensiones temporales y geográficas</li>
+                        <li>Métricas climáticas</li>
+                        <li>Historización de datos</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Resultados -->
+        <section class="resultados">
+            <h2>Resultados Alcanzados</h2>
+            <div class="logros-grid">
+                <div class="logro">
+                    <h3>Modelo de Datos</h3>
+                    <p>Diseño e implementación de MER y DW.</p>
+                </div>
+                <div class="logro">
+                    <h3>Integración</h3>
+                    <p>Procesos ETL automatizados.</p>
+                </div>
+                <div class="logro">
+                    <h3>Análisis</h3>
+                    <p>Procesamiento de millones de registros.</p>
+                </div>
+                <div class="logro">
+                    <h3>Visualización</h3>
+                    <p>Interfaz web intuitiva para consulta de datos.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie -->
+    <footer>
+        <p>© 2025 Gestión Climática. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

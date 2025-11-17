@@ -1,0 +1,190 @@
+/* ==========================================================
+   DOCUMENTACIÓN DEL PROYECTO: GESTIÓN CLIMÁTICA
+   ==========================================================
+
+   DESCRIPCIÓN GENERAL DEL PROYECTO
+   -------------------------------
+   Este proyecto es una aplicación web que visualiza y documenta un sistema
+   de gestión climática basado en IoT. Integra datos de estaciones
+   meteorológicas y presenta la arquitectura del sistema, desde el modelo
+   relacional hasta las consultas analíticas.
+
+   ESTRUCTURA DEL PROYECTO
+   ----------------------
+   /
+   ├── index.html          - Página principal con visión general
+   ├── css/
+   │   ├── estructura.css  - (documentación)
+   │   └── styles.css      - Estilos principales del sitio
+   ├── js/
+   │   └── main.js        - JavaScript para funcionalidades
+   ├── images/
+   │   └── diagrams/      - Diagramas del proyecto
+   └── pages/
+       ├── informacion.html  - MER y Data Warehouse
+       ├── datos.html        - ETL y consultas SQL
+       └── contacto.html     - Información del equipo
+
+   COMPONENTES PRINCIPALES
+   ----------------------
+   1. PÁGINA PRINCIPAL (index.html)
+      - Visión general del proyecto
+      - Objetivos y arquitectura
+      - Navegación principal
+      - Componentes del sistema
+
+   2. INFORMACIÓN (informacion.html)
+      - Modelo Entidad-Relación (MER)
+      - Estructura del Data Warehouse
+      - Diagramas de arquitectura
+      - Explicación de modelos
+
+   3. DATOS Y ETL (datos.html)
+      - Proceso ETL detallado
+      - Vistas SQL implementadas:
+        * Estaciones con Municipio y Departamento
+        * Promedio de Temperatura por Estación
+        * Promedio de observaciones por área
+        * Última Observación por Estación
+      - Ejemplos de consultas y resultados
+
+   4. CONTACTO (contacto.html)
+      - Información del equipo
+      - Formulario de contacto
+
+   TECNOLOGÍAS UTILIZADAS
+   ---------------------
+   - HTML5: Estructura y contenido
+   
+   - CSS3: Implementación y características
+     * Variables CSS (:root)
+       - Definición de colores del tema
+       - Espaciados consistentes
+       - Facilita cambios globales
+     
+     * Flexbox Layout
+       - body: display: flex, flex-direction: column
+       - main: flex: 1 (empuja el footer al fondo)
+       - nav: display: flex (menú responsive)
+     
+     * Grid Layout
+       - .arquitectura-componentes: grid-template-columns
+       - .objetivos-lista: grid de 2 columnas
+       - .logros-grid: grid auto-fit para responsive
+     
+     * Media Queries
+       - @media (max-width: 768px) para móviles
+       - Ajustes de layout en pantallas pequeñas
+       - Cambios de grid a una columna
+     
+     * Transiciones y Efectos
+       - section: transform en hover
+       - nav: transiciones en enlaces
+       - .info-box: efectos de sombra
+     
+     * Características Modernas
+       - border-radius para esquinas redondeadas
+       - box-shadow para efectos de elevación
+       - Gradientes en headers
+       - opacity y transform para animaciones
+   
+   - JavaScript: Interactividad y formularios
+   - SQL: Consultas y vistas analíticas
+
+   CARACTERÍSTICAS IMPLEMENTADAS
+   ---------------------------
+   1. DISEÑO RESPONSIVE
+      - Layout fluido con Flexbox
+      - Media queries para adaptación móvil
+      - Navegación responsiva
+
+   2. ESTILOS CONSISTENTES
+      - Variables CSS para colores y espaciado
+      - Sistema de componentes reutilizables
+      - Diseño modular y escalable
+
+   3. VISUALIZACIÓN DE DATOS
+      - Tablas formateadas para consultas SQL
+      - Bloques de código con syntax highlighting
+      - Diagramas técnicos integrados
+
+   4. INTERACTIVIDAD
+      - Formulario de contacto funcional
+      - Navegación intuitiva
+      - Efectos hover en elementos
+
+   CÓMO EJECUTAR EL PROYECTO
+   ------------------------
+   1. REQUISITOS:
+      - Navegador web moderno
+      - Servidor web local (e.j. Python http.server)
+
+   2. PASOS PARA EJECUTAR:
+      a) Abrir terminal en la carpeta del proyecto
+      b) Ejecutar: python -m http.server 8000
+      c) Abrir navegador: http://localhost:8000
+
+   3. ESTRUCTURA DE ARCHIVOS NECESARIA:
+      - Todos los archivos en sus carpetas respectivas
+      - Imágenes en /images/diagrams/
+      - Mantener estructura de carpetas
+
+   CLASES CSS PRINCIPALES
+   ---------------------
+   .info-box               - Cajas de información
+   .diagram-container      - Contenedor para diagramas
+   .feature-list          - Listas de características
+   .codigo                - Bloques de código SQL
+   .section-mer           - Sección de modelo relacional
+   .section-dw            - Sección de data warehouse
+   .section-etl           - Sección de proceso ETL
+
+   COLORES DEL TEMA
+   ---------------
+   --sky-blue            - Azul cielo (#3498db)
+   --cloud-white         - Blanco nube (#ecf0f1)
+   --storm-gray         - Gris tormenta (#2c3e50)
+   --sun-yellow         - Amarillo sol (#f1c40f)
+   --rain-blue          - Azul lluvia (#2980b9)
+   --grass-green        - Verde vegetación (#27ae60)
+
+   ESTADO ACTUAL DEL PROYECTO
+   -------------------------
+   1. COMPLETADO:
+      - Estructura base del sitio
+      - Navegación principal
+      - Estilos fundamentales
+      - Vistas SQL implementadas
+      - Formulario de contacto
+
+   2. EN DESARROLLO:
+      - Optimización de estilos
+      - Documentación detallada
+      - Mejoras en responsive design
+
+   3. PENDIENTE:
+      - Agregar más visualizaciones
+      - Optimizar rendimiento
+      - Implementar más interactividad
+
+   INSTRUCCIONES DE MODIFICACIÓN
+   ---------------------------
+   1. ESTILOS:
+      - Variables de color en :root de styles.css
+      - Espaciado con variables --spacing-*
+      - Componentes en clases específicas
+
+   2. CONTENIDO:
+      - Usar estructura <section> para nuevas secciones
+      - Mantener jerarquía de contenido
+      - Seguir patrones establecidos
+
+   3. DESARROLLO:
+      - Documentar cambios en este archivo
+      - Mantener estructura consistente
+      - Probar en servidor local
+
+   ==========================================================
+   FIN DE LA DOCUMENTACIÓN
+   ==========================================================
+*/

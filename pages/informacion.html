@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Climática - Información del Proyecto</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="informacion.html" class="active">Información</a></li>
+                <li><a href="datos.html">Datos</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <section class="intro">
+            <h1>Información del Proyecto</h1>
+            <p>
+                En esta sección se presenta la estructura técnica del proyecto Gestión Climática, 
+                donde se desarrollaron dos modelos de datos principales: el <strong>Modelo Relacional (MER)</strong> 
+                y el <strong>Data Warehouse (DW)</strong>. Ambos fueron diseñados para almacenar, procesar y analizar 
+                grandes volúmenes de información ambiental obtenida por estaciones climáticas distribuidas en el país.
+            </p>
+        </section>
+
+        <section class="mer">
+            <h2>Modelo Relacional (MER)</h2>
+            <p>
+                El modelo relacional fue diseñado para manejar las operaciones del día a día, 
+                garantizando la integridad de los datos y la eficiencia en las consultas transaccionales. 
+                Contiene tablas normalizadas que representan entidades como:
+            </p>
+            <ul>
+                <li><strong>Usuarios</strong>: responsables del registro y control de los datos.</li>
+                <li><strong>Áreas operativas</strong>: zonas específicas donde operan las estaciones.</li>
+                <li><strong>Estaciones</strong> y <strong>Sensores</strong>: equipos que recopilan información ambiental.</li>
+                <li><strong>Observaciones</strong>: registros individuales de temperatura y humedad.</li>
+            </ul>
+            <p>
+                Las relaciones entre las tablas son principalmente de tipo <strong>uno a muchos (1:N)</strong>, 
+                y se utilizan claves foráneas para mantener la coherencia de la información.
+            </p>
+        </section>
+
+        <section class="dw">
+            <h2>Data Warehouse (DW)</h2>
+            <p>
+                El Data Warehouse fue diseñado bajo un <strong>esquema estrella</strong>, con una tabla de hechos 
+                llamada <strong>FactObservaciones</strong> y varias dimensiones que permiten analizar la información 
+                desde diferentes perspectivas.
+            </p>
+            <ul>
+                <li><strong>DimTiempo</strong>: organiza las observaciones por año, mes y día.</li>
+                <li><strong>DimSensor</strong>: describe el tipo y características de los sensores.</li>
+                <li><strong>DimEstacion</strong>: identifica la ubicación y categoría de cada estación.</li>
+                <li><strong>DimAreaOperativa</strong>, <strong>DimMunicipio</strong> y <strong>DimDepartamento</strong>: permiten realizar análisis geográficos.</li>
+            </ul>
+            <p>
+                Este modelo facilita la generación de reportes y análisis históricos, 
+                permitiendo detectar patrones de temperatura, variaciones climáticas y comportamientos por zona.
+            </p>
+        </section>
+
+        <section class="comparacion">
+            <h2>Comparación entre MER y DW</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Modelo Relacional (MER)</th>
+                        <th>Data Warehouse (DW)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Propósito</td>
+                        <td>Gestión operativa de datos en tiempo real.</td>
+                        <td>Análisis histórico y toma de decisiones.</td>
+                    </tr>
+                    <tr>
+                        <td>Estructura</td>
+                        <td>Alta normalización, evita redundancias.</td>
+                        <td>Desnormalizado, enfocado en rapidez de consulta.</td>
+                    </tr>
+                    <tr>
+                        <td>Consultas</td>
+                        <td>Pequeñas, frecuentes y de actualización constante.</td>
+                        <td>Grandes, analíticas y con agregaciones.</td>
+                    </tr>
+                    <tr>
+                        <td>Usuarios</td>
+                        <td>Operadores y técnicos.</td>
+                        <td>Analistas y directivos.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>© 2025 Gestión Climática. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
