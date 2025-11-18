@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Climática - Tablero Power BI</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+    <!-- Barra de navegación -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="informacion.html">Información</a></li>
+                <li><a href="datos.html">Datos</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="proyecto.html" class="active">Tablero Power BI</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- TÍTULO -->
+        <section class="intro">
+            <h1>Tablero Interactivo de Gestión Climática</h1>
+            <p>
+                Este tablero de Power BI permite explorar el comportamiento del sistema de monitoreo climático 
+                desde tres perspectivas clave: <strong>Resumen general</strong>, <strong>Análisis operativo</strong> 
+                y <strong>Tendencias temporales</strong>. Cada una ofrece indicadores esenciales para comprender 
+                el funcionamiento de la red y tomar decisiones informadas.
+            </p>
+        </section>
+
+        <!-- TABLERO -->
+        <section class="tablero">
+            <h2>Tablero Power BI</h2>
+
+            <iframe 
+                title="ProyectoGestionClimatica" 
+                width="100%" 
+                height="600"
+                src="https://app.powerbi.com/view?r=eyJrIjoiNDQyNTM4ZTctM2RiMC00NjEyLWI0YTctYjU1M2M4NWI3NWZmIiwidCI6IjA3ZGE2N2EwLTFmNDMtNGU4Yy05NzdmLTVmODhiNjQ3MGVlNiIsImMiOjR9"
+                frameborder="0" 
+                allowfullscreen="true">
+            </iframe>
+        </section>
+
+        <!-- EXPLICACIONES DETALLADAS -->
+        <section class="explicaciones">
+            <h2>Descripción del Contenido del Tablero</h2>
+            <p>
+                El tablero está dividido en tres páginas principales. A continuación, encontrarás una explicación detallada de lo que 
+                se visualiza en cada pestaña y el valor que aporta al análisis climático.
+
+            </p>
+
+        <!-- EXPLICACIONES DETALLADAS -->
+        <section class="explicaciones"
+
+            <!-- Pestaña Resumen -->
+            <h3>Página 1: Resumen — ¿Qué está ocurriendo?</h3>
+            <p>
+                Esta vista ofrece una panorámica general del sistema, mostrando métricas clave:
+            </p>
+            <ul>
+                <li>Más de <strong>2 millones de observaciones</strong> registradas.</li>
+                <li><strong>370 usuarios activos</strong> y más de <strong>9.000 estaciones</strong>.</li>
+                <li><strong>37.000 eventos críticos</strong> detectados.</li>
+                <li><strong>5.680 lecturas diarias</strong> en promedio.</li>
+                <li>Promedio nacional de temperatura: <strong>21,8 °C</strong>.</li>
+            </ul>
+
+            <p>Incluye gráficos como:</p>
+            <ul>
+                <li>Observaciones por departamento (Antioquia encabeza el listado).</li>
+                <li>Distribución por tipo de sensor (relación aproximada 2:1 entre sensores 71 y 68).</li>
+                <li>Promedio de valores por región (variaciones notables entre departamentos).</li>
+            </ul>
+
+            <h4>Mapa Geográfico</h4>
+            <p>El mapa presenta cada estación con:</p>
+            <ul>
+                <li>Latitud y longitud</li>
+                <li>Departamento</li>
+                <li>Suma de observaciones (tamaño de burbuja)</li>
+                <li>Promedio observado</li>
+                <li>Estado operativo</li>
+                <li>Máximo valor registrado</li>
+            </ul>
+
+            <p>
+                Esta pestaña responde a la pregunta <strong>“¿Qué está pasando en el sistema?”</strong> 
+                y permite identificar concentraciones de datos, estaciones críticas y distribución de sensores.
+            </p>
+
+        </section>
+
+        <!-- EXPLICACIONES DETALLADAS -->
+        <section class="explicaciones"
+            <!-- Pestaña Analítica -->
+            <h3>Página 2: Analítica — ¿Por qué ocurre?</h3>
+
+            <p>
+                Esta página profundiza en las relaciones entre diferentes variables del sistema y muestra:
+            </p>
+
+            <ol>
+                <li><strong>Gráfico de dispersión</strong>: Observaciones vs. valor promedio por Área Operativa.</li>
+                <li><strong>Promedio de valor por estación</strong>: muestra estaciones con valores atípicos o críticos.</li>
+                <li><strong>Comparación por Área Operativa según tipo de sensor</strong>: especialmente entre Sensores 68 y 71.</li>
+            </ol>
+
+            <p>Principales hallazgos:</p>
+            <ul>
+                <li>
+                    Algunas áreas presentan alto volumen de observaciones pero valores promedio bajos 
+                    (condiciones estables o sensores calibrados a rangos reducidos).
+                </li>
+                <li>
+                    Estaciones como <strong>“OJO DE AGUA”</strong> o <strong>“LA ESPERA A.D.”</strong> 
+                    destacan por valores promedio inusualmente altos.
+                </li>
+                <li>
+                    El sensor <strong>tipo 71 domina la carga de mediciones</strong> en casi todas las áreas.
+                </li>
+            </ul>
+
+            <p>
+                Esta pestaña ayuda a entender <strong>por qué se presentan ciertas tendencias o comportamientos anómalos</strong>.
+            </p>
+
+        </section>
+
+        <!-- EXPLICACIONES DETALLADAS -->
+        <section class="explicaciones"
+            <!-- Pestaña Temporal -->
+            <h3>Página 3: Tendencias Temporales — ¿Qué puede hacerse?</h3>
+
+            <p>
+                Aquí se analiza la evolución de las observaciones a lo largo del tiempo y se identifican patrones importantes.
+            </p>
+
+            <ul>
+                <li><strong>Cantidad de observaciones por mes:</strong> tendencia descendente en meses recientes.</li>
+                <li><strong>Evolución diaria del valor observado:</strong> picos asociados a eventos climáticos.</li>
+                <li><strong>Promedio del valor por mes:</strong> estabilidad general en los registros.</li>
+                <li><strong>Medias móviles (7 y 30 días):</strong> revelan la tendencia real eliminando ruido diario.</li>
+            </ul>
+
+            <p>Conclusiones clave:</p>
+            <ul>
+                <li>Los valores observados son estables mes a mes.</li>
+                <li>Hay variabilidad diaria natural (propia del clima).</li>
+                <li>Existe una reducción progresiva en el total de observaciones.</li>
+                <li>Las medias móviles confirman un sistema estable con picos controlados.</li>
+            </ul>
+
+            <h4>Acciones recomendadas</h4>
+            <ul>
+                <li>Revisar periodos con baja cantidad de registros.</li>
+                <li>Mantenimiento preventivo de sensores con caídas de actividad.</li>
+                <li>Uso de tendencias para activar alertas tempranas.</li>
+            </ul>
+        </section>
+        </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>© 2025 Gestión Climática. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+
+</html>

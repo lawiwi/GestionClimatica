@@ -18,6 +18,10 @@ def datos():
 def informacion():
     return render_template('pages/informacion.html')
 
+@app.route('/proyecto')
+def proyecto():
+    return render_template('pages/proyecto.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
